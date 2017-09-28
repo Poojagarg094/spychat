@@ -44,15 +44,17 @@ friends_age = []
 friends_rating = []
 friends_status = []
 
-def start_chat(spy_name, spy_age, spy_rating):   # def is a fn
+def start_chat(spy_chat):   # def is a fn
     current_status_message = None
     show_menu = True
 
-
+    #features of app
     while show_menu == True :
-        menu_choices = "what do you want to do ? \n 1) Add a status update \n 2) Add a friend \n 3) Select a friend \n 4) Send a secret message \n 5)Read a secret message \n 6)Read chat of any user \ns7) Close application"
-        menu_choice = int(raw_input(menu_choices))
+        print "you can perform following tasks using spy chat"
+        menu_options = "what do you want to do ? \n 1) Add a status update \n 2) Add a friend \n 3) Select a friend \n 4) Send a secret message \n 5)Read a secret message \n 6)Read chat of any user \ns7) Close application"
+        menu_choice = int(raw_input(menu_options))
 
+#menu options
         if menu_choice == 1:  # here 1 is not in commas bcoz above we write int so not convertedc in string
             #print 'Status update function called'
             print "You have select a status feature"
@@ -94,6 +96,7 @@ def add_status(current_status_message):
         new_status_message = raw_input("What status message do you want to set ? ")
 
         if len(new_status_message)>0:
+            #update the STATUS MSGS
             updated_status_message = new_status_message
             STATUS_MESSAGES.append(updated_status_message)
 
@@ -105,6 +108,8 @@ def add_status(current_status_message):
         message_selection = input(" \n Choose from the above messages ")
         if len(STATUS_MESSAGES) >= message_selection :   # here we check length of any status
             updated_status_message = STATUS_MESSAGES[message_selection - 1]   #-1 bcoz item_position will be started from 1
+            current_status_message = add_status(current_status_message
+                                                )
     return updated_status_message  # this stmt here bcoz here work if or else in both case status return value
 
 
@@ -115,14 +120,14 @@ def add_friend():
         'salutation' :"",
         'age' : 0,
         'rating' : 0.0
-    }
+                }
 
     new_friend['name'] = input("Plz add your friend's name ")   #concept of dict and always use square braces
     new_friend['salutation'] = input(" Are they Mr. or Ms. ?")
     new_friend['name'] = new_friend['salutation'] + " " + new_friend['name']
     new_friend['age'] = input("Age ")
     new_friend['rating'] = input("spy_rating")
-    if len(new_friend['name']) > 0 and new_friend['age'] > 12 and  new_friend['rating'] >= spy_rating:
+    if len(new_friend['name']) > 0 and new_friend['age'] > 12 and  new_friend['rating'] >= spy_chat['rating'] :
         # print "Friend Added"   #add friend
         # friends_name.append(new_name)   #adding new data of frds lists  and list declare above already
         # friends_age.append(new_age)
@@ -152,7 +157,7 @@ def select_friend():
 if response == "yes":   #app start
     print "APP STARTED"
     print "Welcome " + spy_chat['salutation'] +" " + spy_chat['name']
-    start_chat(spy_chat['name', 'age', 'rating'])
+    #start_chat(spy_chat['name'], spy_chat['age'], spy_chat['rating'])
 
 # #raw_input('What\'s your name?')   #after running o terminal we always seen that cursor blink in case if input means user first give inpu and after that it will proceed
 #           # now we save name in one variable so just modify this code
@@ -167,29 +172,29 @@ if response == "yes":   #app start
 else:
     spy_name = raw_input('Welcome to spy chat , U must tell your appy name first : ')
 
-    if len(spy_name)>0:
+    if len(spy_chat['name'])>0:
 
-        print "Welcome " + spy_name + " Glad to have you back with us"
-        spy_salutation = raw_input("What would we call you (Mr. or Ms.)?")
+        print "Welcome " + spy_chat['name'] + " Glad to have you back with us"
+        spy_chat['salutation'] = raw_input("What would we call you (Mr. or Ms.)?")
         #spy_name = spy_salutation + " " + spy_name  #it doesnt work bcoz we have to give keyword print
-        print "Alright " + spy_salutation + " " + spy_name + " I'd like to know a little bit more about you before we proceed"
+        print "Alright " + spy_chat['salutation'] + " " + spy_chat['name'] + " I'd like to know a little bit more about you before we proceed"
 
-        spy_age = input("What is your Spy age ? ")
-        if spy_age>12 and spy_age<50:
+        spy_chat['age'] = input("What is your Spy age ? ")
+        if spy_chat['age']>12 and spy_chat['age']<50:
 
-            spy_rating = input("What is your spy rating ? ")
+            spy_chat['rating'] = input("What is your spy rating ? ")
 
-            if spy_rating>4.7:
+            if spy_chat['rating'] > 4.7:
                 print "you are great"
 
-            elif spy_rating>3.5 and spy_rating<4.5:
+            elif spy_chat['rating']>3.5 and spy_chat['rating']<4.5:
                 print "work harder"
 
         else:
             print "Sorry you are not of the correct age to be a spy"
 
-        spy_is_online = True  # T in caps
-        print "Authentication Complete. Welcome " + spy_name + " \n age : " + str(spy_age) + " and rating of " + str( spy_rating) + " \n Proud to have you entered" #here we use str() fn bcoz int and str never concatanate together
+        spy_chat_is_online = True  # T in caps
+        print "Authentication Complete. Welcome " + spy_name + " \n age : " + str(spy_chat['age']) + " and rating of " + str( spy_chat['rating']) + " \n Proud to have you entered" #here we use str() fn bcoz int and str never concatanate together
 
     else:  # semicolon must and indentation too
         print "A Spy needs to have a valid name. Try Again please"
