@@ -30,6 +30,8 @@
 
 
 from spy_details import spy_chat
+from steganography.steganography import Steganography #added by running pip install steganography
+import sys   #python package  it helps in closing the prgrm because it provide sys.exit() function
 
 print "Let's get started"  # our project start
 
@@ -59,6 +61,7 @@ def start_chat(spy_chat):   # def is a fn
             #print 'Status update function called'
             print "You have select a status feature"
             current_status_message = add_status(current_status_message)
+
         elif menu_choice == 2:
             print "You selected Add a friend feature"
             number_of_friends = add_friend()
@@ -86,38 +89,56 @@ def start_chat(spy_chat):   # def is a fn
 
     #FOR ADDING STATUS MSG FUNCTION DEFINE HERE
 def add_status(current_status_message):
+    updated_status_message=None
     if current_status_message != None:     #always remember : colon in if else and != indicates not equal to
         print "Your current status message is " + current_status_message + "\n"
     else:
         print "You don't have any status message curently \n"
     default = raw_input("Do you want to select from the older status (Y/N)")
 
-    if default.upper == "N":
+    updated_status_message=""
+    current_status_message=""
+
+    if default.upper() == "N":
         new_status_message = raw_input("What status message do you want to set ? ")
 
         if len(new_status_message)>0:
             #update the STATUS MSGS
+            STATUS_MESSAGES.append(new_status_message)
             updated_status_message = new_status_message
-            STATUS_MESSAGES.append(updated_status_message)
+            print " Now your status msg is : ' " + updated_status_message +  " ' \n "
+            current_status_message = updated_status_message
+
+        else:
+            print "Plzz enter a valid status update"
 
     elif default.upper() == 'Y':
         item_position = 1
+
         for message in STATUS_MESSAGES:
-            print str(item_position) + " " + message
+            print str(item_position) + " " + str(message)
             item_position = item_position + 1
-        message_selection = input(" \n Choose from the above messages ")
+        message_selection = raw_input(" \n Choose from the above messages ")
         if len(STATUS_MESSAGES) >= message_selection :   # here we check length of any status
             updated_status_message = STATUS_MESSAGES[message_selection - 1]   #-1 bcoz item_position will be started from 1
-            current_status_message = add_status(current_status_message
-                                                )
+            #current_status_message = add_status(current_status_message)
+
+    else:
+        print "Press y or n only"
+
+    if updated_status_message :
+        print "\n Now your status is : ' " + updated_status_message +  " ' \n "
+        current_status_message = updated_status_message
+    else:
+        print "You dont have any status update"
     return updated_status_message  # this stmt here bcoz here work if or else in both case status return value
 
 
     #FOR ADD A FRD FUNCTION DEFINES HERE
 def add_friend():
     new_friend ={
-        'name' :"",
-        'salutation' :"",
+        'name' :" ",
+        'salutation' :" ",
         'age' : 0,
         'rating' : 0.0
                 }
@@ -171,31 +192,35 @@ if response == "yes":   #app start
 # #     print new_message    again we modify all above code
 else:
     spy_name = raw_input('Welcome to spy chat , U must tell your appy name first : ')
+    spy_chat['name']= spy_name
 
-    if len(spy_chat['name'])>0:
+    #loop
+    while True:
 
-        print "Welcome " + spy_chat['name'] + " Glad to have you back with us"
-        spy_chat['salutation'] = raw_input("What would we call you (Mr. or Ms.)?")
-        #spy_name = spy_salutation + " " + spy_name  #it doesnt work bcoz we have to give keyword print
-        print "Alright " + spy_chat['salutation'] + " " + spy_chat['name'] + " I'd like to know a little bit more about you before we proceed"
+        if len(spy_chat['name'])>0:
 
-        spy_chat['age'] = input("What is your Spy age ? ")
-        if spy_chat['age']>12 and spy_chat['age']<50:
+            print "Welcome " + spy_chat['name'] + " Glad to have you back with us"
+            spy_chat['salutation'] = raw_input("What would we call you (Mr. or Ms.)?")
+            #spy_name = spy_salutation + " " + spy_name  #it doesnt work bcoz we have to give keyword print
+            print "Alright " + spy_chat['salutation'] + " " + spy_chat['name'] + " I'd like to know a little bit more about you before we proceed"
 
-            spy_chat['rating'] = input("What is your spy rating ? ")
+            spy_chat['age'] = input("What is your Spy age ? ")
+            if spy_chat['age']>12 and spy_chat['age']<50:
 
-            if spy_chat['rating'] > 4.7:
-                print "you are great"
+                spy_chat['rating'] = input("What is your spy rating ? ")
 
-            elif spy_chat['rating']>3.5 and spy_chat['rating']<4.5:
-                print "work harder"
+                if spy_chat['rating'] > 4.7:
+                    print "you are great"
 
-        else:
-            print "Sorry you are not of the correct age to be a spy"
+                elif spy_chat['rating']>3.5 and spy_chat['rating']<4.5:
+                    print "work harder"
 
-        spy_chat_is_online = True  # T in caps
-        print "Authentication Complete. Welcome " + spy_name + " \n age : " + str(spy_chat['age']) + " and rating of " + str( spy_chat['rating']) + " \n Proud to have you entered" #here we use str() fn bcoz int and str never concatanate together
-
-    else:  # semicolon must and indentation too
-        print "A Spy needs to have a valid name. Try Again please"
-        start_chat(spy_chat['name', 'age', 'rating'])
+            else:
+                print "Sorry you are not of the correct age to be a spy"
+                sys.exit()
+            spy_chat_is_online = True  # T in caps
+            print "Authentication Complete. Welcome " + spy_name + " \n age : " + str(spy_chat['age']) + " and rating of " + str( spy_chat['rating']) + " \n Proud to have you entered" #here we use str() fn bcoz int and str never concatanate together
+            break
+        else:  # semicolon must and indentation too
+            print "A Spy needs to have a valid name. Try Again please"
+    start_chat(spy_chat)
