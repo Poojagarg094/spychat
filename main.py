@@ -102,18 +102,20 @@ def start_chat(defaultuser):   # def is a fn
                 print "You have selected to read a secret msg feature"
                 read_message()
 
-            elif menu_choices == 6:
+            elif menu_choice == 6:
                 print "\nYour Have Selected Chat Read Feature. \n"
                 # code for Read a Chat From the user Comes here
 
             elif menu_choice == 7:
                 print "You have selected a close appn feature"
                 close_application = "choose (Y/N)"
-                close = raw_input("close_application")
+                close = raw_input("close_application. choose (y/n)")
 
                 if close.upper() == "Y" :
                     show_menu = False
                     exit()
+                    easygui.msgbox("THANX FOR USING SPY CHAT. I HOPE U ENJOYED A LOT")
+
                 else:
                     show_menu == True
 
@@ -237,37 +239,56 @@ def send_message():
     original_image = raw_input("What is the name of the image?")
     output_path = 'output.jpg'
     text = raw_input("What do you want to say?")
+    Secured_image = raw_input("Enter Name (without extension .jpg) For Newly Generated Secure Message File : \t")
+    # set the name for the out secure image with text
+    output_path = Secured_image + '.jpg'
     Steganography.encode(original_image, output_path, text)
+
+    temp = text.split(' ')
+    # If a Smart send a message with special words such as SOS, SAVE ME etc. you should display an appropriate message
+    special = ['SOS', 'sos', 'HELP', 'Save', 'save']
+    for any in special:
+        if any in temp:
+            temp[temp.index(any)] = ' Please Help Me. i am In Denger. Contact me as soon as Possible'
+    # replece with new full length message
+    text = str.join(' ', temp)
 
     new_chat = {
         "message" : text,
         "time" : datetime.now(),  #it represents current time
         "sent_by_me" : True
     }
-    print new_chat['message']
-    friends[friend_choice]['chats'].append(new_chat)
-    print friends[friend_choice]['chats']
-    print "Your secret message is ready?"
+   # print new_chat['message']
+    friends[friend_choice].chats.append(new_chat)
 
+    print 'Your secret message is ready? "%s"' %output_path
+
+#read a secret msg fn
 def read_message():
-    friend_choice = select_friend()
-    output_path = raw_input("Enter image path")
-    secret_text = Steganography.decode(output_path)
-    new_chat = {
-        "message": text,
-        "time": datetime.now(),  # it represents current time
-        "sent_by_me": False
-    }
 
-    friends[friend_choice]['chats'].append(new_chat)
-    print "Your secret message is ready?"
+    owner = select_friend()
+    output_path = raw_input("Enter image name without extension") + ".jpg"
+    try:
+        secret_text = Steganography.decode(output_path)
+    except ValueError:
+        print "\tNo Any Secret Message In This Image. Please Try Another Image File \n"
+        read_message()
+    #secret_text = Steganography.decode(output_path)
+    # new_chat = {
+    #     "message": text,
+    #     "time": datetime.now(),  # it represents current time
+    #     "sent_by_me": False
+    # }
+
+    #friends[friend_choice]['chats'].append(new_chat)
+    print "Your secret message is ready?" + secret_text + ' " '
 
 
 print "APP STARTED"
 question = '\n Continue as' + defaultuser.salutation + "" +defaultuser.name + "(y/n)? "
 existing = raw_input(question)
 
-if existing.upper() == "y":   #app start
+if existing.upper() == "Y":   #app start upper change letters
     defaultuser.name = defaultuser.salutation + "" +defaultuser.name
     print "Welcome " + defaultuser.salutation + defaultuser.name + " Glad to have you back with us"
     AskForPassword = defaultuser.name + " Please Enter your password: \t"
