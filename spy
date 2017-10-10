@@ -45,7 +45,7 @@ print "Let's get started"  # our project start
 #response = raw_input("Do you want to continue as " + spy_chat['salutation'] + " " + spy_chat['name'] + "? ( yes / no )")  # here we ask ques thats why we use raw_input fn and stored these details in var ie response
 
 #pre-defined STATUS MSG
-STATUS_MESSAGES = ["Don't tell people your dreams, SHOW THEM", 'Shaken , not stirred', "typing...",  "I just want to die young as late as possible",]   #square braces bcoz we use list
+STATUS_MESSAGES = ["Don't tell people your dreams, SHOW THEM", 'Shaken , not stirred', "typing...",  "I just want to die young as late as possible"]   #square braces bcoz we use list
 
 #import save for saving chat msg
 import csv
@@ -68,6 +68,7 @@ def load_friends():
 
 def start_chat(defaultuser):   # def is a fn
     current_status_message = None
+    current_status_message = None
     show_menu = True
 
     #features of app
@@ -77,48 +78,41 @@ def start_chat(defaultuser):   # def is a fn
         menu_choice = raw_input(menu_options)
 
 #menu options
-        if menu_choice > 0 :
-            # to convert other data type into interger Data type
-            menu_choice = int(menu_choice)
-            if menu_choice == 1:  # here 1 is not in commas bcoz above we write int so not convertedc in string
-                #print 'Status update function called'
-                print "You have select a status feature"
-                current_status_message = add_status(current_status_message)
+        if menu_choice == 1:  # here 1 is not in commas bcoz above we write int so not convertedc in string
+            #print 'Status update function called'
+            print "You have select a status feature"
+            current_status_message = add_status(current_status_message)
 
-            elif menu_choice == 2:
-                print "You selected Add a friend feature"
-                number_of_friends = add_friend()
-                print "You have %d friends" %(number_of_friends)
+        elif menu_choice == 2:
+            print "You selected Add a friend feature"
+            number_of_friends = add_friend()
+            print "You have %d friends" %(number_of_friends)
 
-            elif menu_choice == 3:
-                print "You have selected a Select friend feature"
-                select_friend()
+        elif menu_choice == 3:
+            print "You have selected a Select friend feature"
+            select_friend()
 
-            elif menu_choice == 4:
-                print "You have selected a Send secret msg feature"
-                send_message()
+        elif menu_choice == 4:
+            print "You have selected a Send secret msg feature"
+            send_message()
 
-            elif menu_choice == 5:
-                print "You have selected to read a secret msg feature"
-                read_message()
+        elif menu_choice == 5:
+            print "You have selected to read a secret msg feature"
+            read_message()
 
-            elif menu_choices == 6:
-                print "\nYour Have Selected Chat Read Feature. \n"
-                # code for Read a Chat From the user Comes here
+        elif menu_choice == 7:
+            print "You have selected a close appn feature"
+            close_application = "choose (Y/N)"
+            close = raw_input("close_application")
 
-            elif menu_choice == 7:
-                print "You have selected a close appn feature"
-                close_application = "choose (Y/N)"
-                close = raw_input("close_application")
-
-                if close.upper() == "Y" :
-                    show_menu = False
-                    exit()
-                else:
-                    show_menu == True
+            if close.upper() == "Y" :
+                show_menu = False
+                exit()
+            else:
+                show_menu == True
 
     else:
-        print "select valid option"
+        print "Thank you for using spy chat"
 
 
 
@@ -188,18 +182,11 @@ def add_friend():
     # new_friend['name'] = new_friend['salutation'] + " " + new_friend['name']
     new_friend.name = new_friend.salutation + " " + new_friend.name
 
-    # new_friend.age = raw_input("Age ")
-    # new_friend.age = int(new_friend.Age )
+    new_friend.age = raw_input("Age ")
+    new_friend.age = int("new_friend.Age ")
 
-    new_friend.age = raw_input(new_friend.name + "\'s Age:  \t")
-    # coverting input data to integer format
-    new_friend.age = int(new_friend.age)
-
-    # new_friend.rating = raw_input("spy_rating")
-    # new_friend.rating = float(new_friend.rating)
-    new_friend.rating = raw_input(new_friend.name + "\'s Smart rating? \t")
-    # converting input data into float
-    new_friend.rating = float(new_friend.rating)
+    new_friend.rating = input("spy_rating")
+    new_friend.rating = float("new_friend.rating")
 
     if len(new_friend.name) > 0 and new_friend.age > 12 and  new_friend.rating >= 1 :
         # print "Friend Added"   #add friend
@@ -215,19 +202,8 @@ def add_friend():
     return len(friends)    #return value of friends
 
 
-    #SELECT A FRIEND FUNCTION HERE
-def select_friend():
-    def view_friend():
-        item_number = 0
-        for friend in friends:  #it will select all frds from frds list
-            print '\t%d %s age %d ratinng %2f is online' %((item_number + 1), friend.name, friend.age, friend.rating)
-            item_number = item_number + 1
 
-    view_friend()
-    friend_choice = raw_input("choose from your friends")
-    friend_choice_position = int(friend_choice) - 1
 
-    return friend_choice_position #return selected frd number
 
 
 #sending a secret msg
@@ -261,6 +237,24 @@ def read_message():
 
     friends[friend_choice]['chats'].append(new_chat)
     print "Your secret message is ready?"
+
+
+
+
+
+    #SELECT A FRIEND FUNCTION HERE
+def select_friend():
+    def view_friend():
+        item_number = 0
+        for friend in friends:  #it will select all frds from frds list
+            print '\t%d %s age %d ratinng %2f is online' %((item_number + 1), friend.name, friend.age, friend.rating)
+            item_number = item_number + 1
+
+    view_friend()
+    friend_choice = raw_input("choose from your friends")
+    friend_choice_position = friend_choice - 1
+
+    return friend_choice_position #return selected frd number
 
 
 print "APP STARTED"
